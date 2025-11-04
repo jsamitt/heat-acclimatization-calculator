@@ -19,7 +19,6 @@
         <label for="days-on-job">Days on the Job <span class="req">*</span></label>
         <select id="days-on-job" required>
           <option value="" disabled selected>Select...</option>
-          <!-- New workers -->
           <option value="new-1">New Worker – Day 1</option>
           <option value="new-2">New Worker – Day 2</option>
           <option value="new-3">New Worker – Day 3</option>
@@ -30,7 +29,6 @@
           <option value="new-8">New Worker – Day 8</option>
           <option value="new-9">New Worker – Day 9</option>
           <option value="new-10plus">New Worker – Day 10+</option>
-          <!-- Returning workers -->
           <option value="return-1">Returning (5+ days off) – Day 1</option>
           <option value="return-2">Returning – Day 2</option>
           <option value="return-3">Returning – Day 3</option>
@@ -46,7 +44,7 @@
 
       <!-- 3. Fitness Adjustment Checkbox -->
       <div class="field checkbox-field">
-        <label>
+        <label for="use-fitness">
           <input type="checkbox" id="use-fitness" />
           <span class="checkbox-label">Adjust schedule based on fitness level</span>
         </label>
