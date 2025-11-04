@@ -76,19 +76,31 @@
 
   <script src="script.js"></script>
 <script>
-  // Tell Shopify the new height every time the plan updates
+  // BULLETPROOF HEIGHT SYNC
   function sendHeight() {
-    const height = document.body.scrollHeight + 40;
+    const height = document.body.scrollHeight + 60; // Extra padding
     parent.postMessage({ type: 'acclimatization-resize', height }, '*');
   }
-  // Call on every calculation
+
+  // Send on load
+  window.addEventListener('load', () => {
+    setTimeout(sendHeight, 100);
+    setTimeout(sendHeight, 500); // Double-send
+  });
+
+  // Send on every calculation
   const originalCalculate = calculatePlan;
   calculatePlan = function() {
     originalCalculate();
     requestAnimationFrame(sendHeight);
   };
-  // Initial send
-  window.onload = sendHeight;
+
+  // Fallback: poll every 500ms for 5 seconds
+  let polls = 0;
+  const poll = setInterval(() => {
+    sendHeight();
+    if (polls++ > 10) clearInterval(poll);
+  }, 500);
 </script>
 </body>
 </html>
