@@ -1,4 +1,4 @@
-/* ... (keep all previous styles) ... */
+/* ... keep all previous styles ... */
 
 /* Checkbox Field */
 .checkbox-field {
@@ -9,6 +9,7 @@
 .checkbox-label {
   font-weight: 600;
   margin-left: 0.5rem;
+  vertical-align: middle;
 }
 .help-text {
   font-size: 0.85rem;
@@ -17,7 +18,14 @@
   font-style: italic;
 }
 
-/* Disabled select */
+/* Disabled field styling */
+#fitness-field {
+  transition: opacity 0.2s ease;
+}
+#fitness-field.disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
 #fitness-field select:disabled {
   background-color: #f5f5f5;
   color: #999;
@@ -25,7 +33,32 @@
   border-color: #ddd;
 }
 
-/* Print button */
+/* Table & Print Button */
+.plan-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1rem 0;
+  font-size: 0.95rem;
+}
+.plan-table th, .plan-table td {
+  padding: 0.5rem;
+  border: 1px solid #ddd;
+  text-align: left;
+}
+.plan-table th {
+  background: #1976d2;
+  color: white;
+}
+.plan-table tr:nth-child(even) {
+  background: #f5f5f5;
+}
+.note {
+  background: #fff3cd;
+  padding: 0.75rem;
+  border-left: 4px solid #ffc107;
+  border-radius: 4px;
+  margin-top: 1rem;
+}
 .print-btn {
   margin-top: 1rem;
   padding: 0.75rem 1.5rem;
