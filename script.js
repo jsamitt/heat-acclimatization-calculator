@@ -1,31 +1,38 @@
-// Heat Acclimatization Calculator – OSHA/NIOSH + Optional Fitness Adjustment
+// Heat Acclimatization Calculator – FIXED & WORKING
 document.addEventListener('DOMContentLoaded', () => {
   const output = document.getElementById('output');
   const useFitnessCheckbox = document.getElementById('use-fitness');
   const fitnessSelect = document.getElementById('fitness');
   const fitnessField = document.getElementById('fitness-field');
 
-  // Enable/disable fitness select based on checkbox
-  useFitnessCheckbox.addEventListener('change', () => {
+  // Toggle fitness field visibility and enabled state
+  function toggleFitnessField() {
     const enabled = useFitnessCheckbox.checked;
     fitnessSelect.disabled = !enabled;
-    fitnessField.style.opacity = enabled ? '1' : '0.6';
-    fitnessField.style.pointerEvents = enabled ? 'auto' : 'none';
+    fitnessField.classList.toggle('disabled', !enabled);
+  }
+
+  // Attach event listeners
+  useFitnessCheckbox.addEventListener('change', () => {
+    toggleFitnessField();
     calculatePlan(); // Recalculate immediately
   });
 
-  // Listen to all inputs
-  ['days-on-job', 'typical-hours', 'use-fitness', 'fitness'].forEach(id => {
+  ['days-on-job', 'typical-hours', 'fitness'].forEach(id => {
     const el = document.getElementById(id);
     el.addEventListener('change', calculatePlan);
     el.addEventListener('input', calculatePlan);
   });
 
+  // Initial state
+  toggleFitnessField();
+
+  // Main calculation function
   function calculatePlan() {
     const daysKey = document.getElementById('days-on-job').value;
     const typicalHours = parseFloat(document.getElementById('typical-hours').value) || 0;
-    const useFitness = document.getElementById('use-fitness').checked;
-    const fitness = useFitness ? document.getElementById('fitness').value : 'average';
+    const useFitness = useFitnessCheckbox.checked;
+    const fitness = useFitness ? fitnessSelect.value : 'average';
 
     // Validation
     if (!daysKey || typicalHours <= 0) {
@@ -104,9 +111,6 @@ document.addEventListener('DOMContentLoaded', () => {
     output.innerHTML = planHTML;
   }
 
-  // Initial state
-  fitnessSelect.disabled = true;
-  fitnessField.style.opacity = '0.6';
-  fitnessField.style.pointerEvents = 'none';
+  // Initial calculation
   calculatePlan();
 });
