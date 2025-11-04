@@ -76,31 +76,35 @@
 
   <script src="script.js"></script>
 <script>
-  // BULLETPROOF HEIGHT SYNC
+  // BULLETPROOF RESIZE FOR SHOPIFY
   function sendHeight() {
-    const height = document.body.scrollHeight + 60; // Extra padding
-    parent.postMessage({ type: 'acclimatization-resize', height }, '*');
+    const height = document.documentElement.scrollHeight + 80;
+    parent.postMessage({ type: 'calc-resize', height: height }, '*');
   }
 
-  // Send on load
+  // Resize on load
   window.addEventListener('load', () => {
-    setTimeout(sendHeight, 100);
-    setTimeout(sendHeight, 500); // Double-send
+    setTimeout(sendHeight, 200);
+    setTimeout(sendHeight, 800);
   });
 
-  // Send on every calculation
+  // Resize on any change
+  const observer = new MutationObserver(sendHeight);
+  observer.observe(document.body, { childList: true, subtree: true });
+
+  // Override calculatePlan
   const originalCalculate = calculatePlan;
   calculatePlan = function() {
-    originalCalculate();
+    originalCalculate.apply(this, arguments);
     requestAnimationFrame(sendHeight);
   };
 
-  // Fallback: poll every 500ms for 5 seconds
+  // Poll fallback
   let polls = 0;
   const poll = setInterval(() => {
     sendHeight();
-    if (polls++ > 10) clearInterval(poll);
-  }, 500);
+    if (polls++ > 12) clearInterval(poll);
+  }, 600);
 </script>
 </body>
 </html>
