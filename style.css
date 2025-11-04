@@ -1,31 +1,39 @@
-/* Reset & Base */
-* { box-sizing: border-box; margin:0; padding:0; }
-body { font-family: system-ui, -apple-system, sans-serif; background:#f9f9fb; color:#1a1a1a; line-height:1.5; }
-.container { max-width: 600px; margin: 2rem auto; padding: 1.5rem; background:#fff; border-radius:12px; box-shadow:0 4px 12px rgba(0,0,0,0.05); }
+/* ... (keep all previous styles) ... */
 
-/* Typography */
-h1 { font-size:1.75rem; margin-bottom:0.5rem; }
-.subtitle { color:#555; margin-bottom:1.5rem; }
-label { display:block; margin-bottom:0.35rem; font-weight:600; }
-.req { color:#d32f2f; }
-
-/* Form */
-.field + .field { margin-top:1rem; }
-select, input[type=number] {
-  width:100%; padding:0.75rem; font-size:1rem; border:1px solid #ccc; border-radius:8px;
-  transition:border 0.2s;
+/* Checkbox Field */
+.checkbox-field {
+  margin: 1.5rem 0;
+  display: flex;
+  flex-direction: column;
 }
-select:focus, input:focus { outline:none; border-color:#1976d2; }
-
-/* Output */
-.output { margin-top:2rem; padding:1rem; background:#e3f2fd; border-radius:8px; min-height:120px; }
-.placeholder { color:#666; font-style:italic; }
-.plan { line-height:1.7; }
-
-/* Disclaimer */
-.disclaimer { margin-top:2rem; font-size:0.875rem; color:#555; border-top:1px solid #eee; padding-top:1rem; }
-
-/* Responsive */
-@media (max-width: 480px) {
-  .container { margin:1rem; padding:1rem; }
+.checkbox-label {
+  font-weight: 600;
+  margin-left: 0.5rem;
 }
+.help-text {
+  font-size: 0.85rem;
+  color: #d32f2f;
+  margin-top: 0.25rem;
+  font-style: italic;
+}
+
+/* Disabled select */
+#fitness-field select:disabled {
+  background-color: #f5f5f5;
+  color: #999;
+  cursor: not-allowed;
+  border-color: #ddd;
+}
+
+/* Print button */
+.print-btn {
+  margin-top: 1rem;
+  padding: 0.75rem 1.5rem;
+  background: #1976d2;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.print-btn:hover { background: #1565c0; }
