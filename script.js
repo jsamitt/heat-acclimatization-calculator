@@ -1,21 +1,20 @@
-// Heat Acclimatization Calculator – FIXED & WORKING
+// Heat Acclimatization Calculator – FULL PLAN (Day 1 to Max)
 document.addEventListener('DOMContentLoaded', () => {
   const output = document.getElementById('output');
   const useFitnessCheckbox = document.getElementById('use-fitness');
   const fitnessSelect = document.getElementById('fitness');
   const fitnessField = document.getElementById('fitness-field');
 
-  // Toggle fitness field visibility and enabled state
+  // Toggle fitness field
   function toggleFitnessField() {
     const enabled = useFitnessCheckbox.checked;
     fitnessSelect.disabled = !enabled;
     fitnessField.classList.toggle('disabled', !enabled);
   }
 
-  // Attach event listeners
   useFitnessCheckbox.addEventListener('change', () => {
     toggleFitnessField();
-    calculatePlan(); // Recalculate immediately
+    calculatePlan();
   });
 
   ['days-on-job', 'typical-hours', 'fitness'].forEach(id => {
@@ -27,7 +26,6 @@ document.addEventListener('DOMContentLoaded', () => {
   // Initial state
   toggleFitnessField();
 
-  // Main calculation function
   function calculatePlan() {
     const daysKey = document.getElementById('days-on-job').value;
     const typicalHours = parseFloat(document.getElementById('typical-hours').value) || 0;
@@ -42,7 +40,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const [type, dayStr] = daysKey.split('-');
     const isNew = type === 'new';
-    const dayNum = dayStr === '10plus' ? 10 : (dayStr === '4plus' ? 4 : parseInt(dayStr));
+    const selectedDay = dayStr === '10plus' ? 10 : (dayStr === '4plus' ? 4 : parseInt(dayStr));
+
+    // MAX DAYS TO SHOW
+    const maxDays = isNew ? 10 : 4;
 
     // Base OSHA/NIOSH
     let baseStart = isNew ? 20 : 50;
@@ -80,27 +81,29 @@ document.addEventListener('DOMContentLoaded', () => {
       customNote = `<p class="note"><strong>Custom Adjustment:</strong> This schedule modifies OSHA/NIOSH guidance based on fitness. Use with caution and consult a safety professional.</p>`;
     }
 
-    // Build plan
-    let planHTML = `<h3>Your Acclimatization Plan</h3>`;
+    // Build FULL PLAN (Day 1 to maxDays)
+    let planHTML = `<h3>Full Acclimatization Plan</h3>`;
+    planHTML += `<p><strong>Current Selection:</strong> ${isNew ? 'New Worker' : 'Returning'} – Day ${selectedDay}</p>`;
     planHTML += `<p><strong>Fitness Basis:</strong> ${fitnessLabel}</p>`;
-    planHTML += `<p><strong>Worker Type:</strong> ${isNew ? 'New Worker' : 'Returning (5+ days off)'}</p>`;
     planHTML += `<p><strong>Typical Full Day:</strong> ${typicalHours} hours</p><br>`;
 
     planHTML += `<table class="plan-table"><thead><tr><th>Day</th><th>Exposure %</th><th>Hours Allowed</th><th>Notes</th></tr></thead><tbody>`;
 
-    for (let d = 1; d <= dayNum; d++) {
-      const hoursAllowed = Math.min(typicalHours, (currentPercent / 100) * typicalHours).toFixed(1);
-      const note = currentPercent >= 100 ? 'Full acclimatization reached' : 'Monitor for heat stress';
+    let percent = currentPercent;
+    for (let d = 1; d <= maxDays; d++) {
+      const hoursAllowed = Math.min(typicalHours, (percent / 100) * typicalHours).toFixed(1);
+      const note = percent >= 100 ? 'Full acclimatization' : 'Monitor for heat stress';
+      const isCurrent = d === selectedDay ? ' style="background:#e3f2fd; font-weight:600;"' : '';
 
-      planHTML += `<tr>
-        <td><strong>Day ${d}</strong></td>
-        <td>${currentPercent.toFixed(0)}%</td>
+      planHTML += `<tr${isCurrent}>
+        <td><strong>Day ${d}${d === selectedDay ? ' ← Today' : ''}</strong></td>
+        <td>${percent.toFixed(0)}%</td>
         <td>${hoursAllowed} hrs</td>
         <td>${note}</td>
       </tr>`;
 
-      if (d < dayNum) {
-        currentPercent = Math.min(100, currentPercent + dailyIncrease);
+      if (d < maxDays) {
+        percent = Math.min(100, percent + dailyIncrease);
       }
     }
 
