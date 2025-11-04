@@ -14,17 +14,7 @@
     </header>
 
     <section class="inputs">
-      <div class="field">
-        <label for="fitness">Fitness Level <span class="req">*</span></label>
-        <select id="fitness" required>
-          <option value="" disabled selected>Select...</option>
-          <option value="athletic">Athletic</option>
-          <option value="average">Average</option>
-          <option value="sedentary">Sedentary</option>
-          <option value="health">Health Conditions Present</option>
-        </select>
-      </div>
-
+      <!-- 1. Days on Job -->
       <div class="field">
         <label for="days-on-job">Days on the Job <span class="req">*</span></label>
         <select id="days-on-job" required>
@@ -48,9 +38,30 @@
         </select>
       </div>
 
+      <!-- 2. Typical Workday Hours -->
       <div class="field">
         <label for="typical-hours">Typical Workday Hours <span class="req">*</span></label>
         <input type="number" id="typical-hours" min="1" max="16" step="0.5" placeholder="e.g., 8" required />
+      </div>
+
+      <!-- 3. Fitness Adjustment Checkbox -->
+      <div class="field checkbox-field">
+        <label>
+          <input type="checkbox" id="use-fitness" />
+          <span class="checkbox-label">Adjust schedule based on fitness level</span>
+        </label>
+        <p class="help-text">Uses custom logic (not in OSHA/NIOSH). Recommended: leave unchecked.</p>
+      </div>
+
+      <!-- 4. Fitness Level (disabled by default) -->
+      <div class="field" id="fitness-field">
+        <label for="fitness">Fitness Level</label>
+        <select id="fitness" disabled>
+          <option value="athletic">Athletic</option>
+          <option value="average" selected>Average</option>
+          <option value="sedentary">Sedentary</option>
+          <option value="health">Health Conditions Present</option>
+        </select>
       </div>
     </section>
 
