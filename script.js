@@ -77,7 +77,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
       currentPercent = Math.max(20, baseStart + startAdj);
       dailyIncrease = Math.max(10, baseDailyIncrease + dailyAdj);
-      customNote = `<p class="note"><strong>Custom Adjustment Active:</strong> This schedule modifies OSHA/NIOSH guidance based on fitness. Use with caution and consult safety professional.</p>`;
+      customNote = `<p class="note"><strong>Custom Adjustment:</strong> This schedule modifies OSHA/NIOSH guidance based on fitness. Use with caution and consult a safety professional.</p>`;
     }
 
     // Build plan
