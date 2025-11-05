@@ -54,7 +54,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let fitnessLabel = 'Average (OSHA/NIOSH Standard)';
     let customNote = '';
 
-    if (useFitness && fitness !== 'average') {
+        if (useFitness && fitness !== 'average') {
       let startAdj = 0;
       let dailyAdj = 0;
 
@@ -66,19 +66,28 @@ document.addEventListener('DOMContentLoaded', () => {
           break;
         case 'sedentary':
           startAdj = isNew ? -10 : -15;
-          dailyAdj = -5;
+          dailyAdj = isNew ? -5 : 0; // Will be recalculated below
           fitnessLabel = 'Sedentary (custom slower ramp-up)';
           break;
         case 'health':
           startAdj = isNew ? -15 : -20;
-          dailyAdj = -10;
+          dailyAdj = isNew ? -10 : 0; // Will be recalculated below
           fitnessLabel = 'Health Conditions (custom slowest ramp-up)';
           break;
       }
 
       currentPercent = Math.max(20, baseStart + startAdj);
-      dailyIncrease = Math.max(10, baseDailyIncrease + dailyAdj);
-      customNote = `<p class="note"><strong>Custom Adjustment:</strong> This schedule modifies OSHA/NIOSH guidance based on fitness. Use with caution and consult a safety professional.</p>`;
+
+      // FOR RETURNING WORKERS: Force 100% by Day 4
+      if (!isNew) {
+        const daysTo100 = 3; // Day 1 → Day 4 = 3 steps
+        dailyIncrease = (100 - currentPercent) / daysTo100;
+        dailyIncrease = Math.max(10, dailyIncrease); // Never below 10%
+      } else {
+        dailyIncrease = Math.max(10, baseDailyIncrease + dailyAdj);
+      }
+
+      customNote = `<p class="note"><strong>Custom Adjustment:</strong> This schedule modifies OSHA/NIOSH guidance based on fitness. For returning workers, full acclimatization is achieved by Day 4 per standard guidelines.</p>`;
     }
 
     // Build FULL PLAN (Day 1 to maxDays)
