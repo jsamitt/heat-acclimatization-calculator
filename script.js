@@ -101,7 +101,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let percent = currentPercent;
     for (let d = 1; d <= maxDays; d++) {
       const hoursAllowed = Math.min(typicalHours, (percent / 100) * typicalHours).toFixed(1);
-      const note = percent >= 100 ? 'Full acclimatization' : 'Monitor for heat stress';
+      const note = percent >= 100 ? 'Fully acclimatized' : 'Monitoring required';
       const isCurrent = d === selectedDay ? ' style="background:#e3f2fd; font-weight:600;"' : '';
 
       planHTML += `<tr${isCurrent}>
